@@ -16,7 +16,21 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {children}
+        <footer className="fixed bottom-0 left-0 right-0">
+          <div className="flex justify-center items-center h-10 text-gray-400 bg-white">
+            <a
+              href="https://github.com/tsuki-lab/next-isr-chat"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex justify-center items-center"
+            >
+              GitHub Repository
+            </a>
+          </div>
+        </footer>
+      </body>
     </html>
   );
 }

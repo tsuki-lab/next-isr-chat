@@ -1,29 +1,44 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useRef } from "react";
+import { useMemo, useState } from "react";
 
 export const CommentForm = () => {
-  const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+
+  const [commentValue, setCommentValue] = useState("");
+
+  const isDisabled = useMemo(() => {
+    return commentValue === "";
+  }, [commentValue]);
 
   return (
     <form
       onSubmit={async (e) => {
         e.preventDefault();
-        await fetch("/api/comments", {
+        if (isDisabled) {
+          alert("コメントを入力してください");
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append("comment", commentValue);
+
+        fetch("/api/comments", {
           method: "POST",
           body: new FormData(e.target as HTMLFormElement),
         }).finally(() => {
           router.refresh();
+          setCommentValue("");
         });
-        if (inputRef.current === null) return;
-        inputRef.current.value = "";
       }}
-      className="flex fixed bottom-0 left-0 right-0 p-2 gap-1"
+      className="flex fixed bottom-10 left-0 right-0 p-2 gap-1"
     >
       <input
-        ref={inputRef}
+        onChange={(e) => {
+          setCommentValue(e.target.value);
+        }}
+        value={commentValue}
         type="text"
         name="comment"
         className="w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"

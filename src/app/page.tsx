@@ -6,6 +6,9 @@ export const revalidate = 3600;
 export default function Home() {
   return (
     <main className="pb-24">
+      <h1 className="text-3xl font-bold p-2">
+        Next.js ISR <span className="text-blue-500">FREE</span> Chat
+      </h1>
       <Comments />
       <CommentForm />
     </main>
