@@ -1,11 +1,11 @@
 "use client";
 
-import { addComment } from "@/actions/addComment";
-// import { useRouter } from "next/navigation";
+// import { addComment } from "@/actions/addComment";
+import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 
 export const CommentForm = () => {
-  // const router = useRouter();
+  const router = useRouter();
 
   const [commentValue, setCommentValue] = useState("");
 
@@ -25,16 +25,16 @@ export const CommentForm = () => {
         const formData = new FormData();
         formData.append("comment", commentValue);
 
-        await addComment(formData);
-        setCommentValue("");
+        // await addComment(formData);
+        // setCommentValue("");
 
-        // fetch("/api/comments", {
-        //   method: "POST",
-        //   body: new FormData(e.target as HTMLFormElement),
-        // }).finally(() => {
-        //   router.refresh();
-        //   setCommentValue("");
-        // });
+        fetch("/api/comments", {
+          method: "POST",
+          body: formData,
+        }).finally(() => {
+          router.refresh();
+          setCommentValue("");
+        });
       }}
       className="flex fixed bottom-10 left-0 right-0 p-2 gap-1"
     >
@@ -52,6 +52,15 @@ export const CommentForm = () => {
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       >
         Send
+      </button>
+      <button
+        type="button"
+        onClick={() => {
+          router.refresh();
+        }}
+        className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Reload
       </button>
     </form>
   );
