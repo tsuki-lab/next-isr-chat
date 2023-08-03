@@ -1,18 +1,21 @@
 "use client";
 
 import { addComment } from "@/actions/addComment";
+import { useRouter } from "next/navigation";
 import { useRef } from "react";
 
 export const CommentForm = () => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   return (
     <form
-      onSubmit={(e) => {
+      onSubmit={async (e) => {
         e.preventDefault();
-        addComment(new FormData(e.target as HTMLFormElement));
+        await addComment(new FormData(e.target as HTMLFormElement));
         if (inputRef.current === null) return;
         inputRef.current.value = "";
+        router.refresh();
       }}
       className="flex fixed bottom-0 left-0 right-0 p-2 gap-1"
     >
