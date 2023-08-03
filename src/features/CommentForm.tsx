@@ -1,17 +1,16 @@
 "use client";
 
+import { addComment } from "@/actions/addComment";
 import { useRef } from "react";
 
-export const CommentForm = (props: {
-  action: (formData: FormData) => Promise<void>;
-}) => {
+export const CommentForm = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        props.action(new FormData(e.target as HTMLFormElement));
+        addComment(new FormData(e.target as HTMLFormElement));
         if (inputRef.current === null) return;
         inputRef.current.value = "";
       }}
