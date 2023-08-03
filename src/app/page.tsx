@@ -10,9 +10,7 @@ export default function Home() {
       <h1 className="text-3xl font-bold p-2">
         Next.js ISR <span className="text-blue-500">FREE</span> Chat
       </h1>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Comments />
-      </Suspense>
+      <Comments />
       <CommentForm />
     </main>
   );
