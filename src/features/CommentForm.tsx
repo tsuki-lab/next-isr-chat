@@ -14,10 +14,11 @@ export const CommentForm = () => {
         await fetch("/api/comments", {
           method: "POST",
           body: new FormData(e.target as HTMLFormElement),
+        }).finally(() => {
+          router.refresh();
         });
         if (inputRef.current === null) return;
         inputRef.current.value = "";
-        router.refresh();
       }}
       className="flex fixed bottom-0 left-0 right-0 p-2 gap-1"
     >
