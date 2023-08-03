@@ -1,6 +1,5 @@
 "use client";
 
-import { addComment } from "@/actions/addComment";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
 
@@ -12,7 +11,10 @@ export const CommentForm = () => {
     <form
       onSubmit={async (e) => {
         e.preventDefault();
-        await addComment(new FormData(e.target as HTMLFormElement));
+        await fetch("/api/comments", {
+          method: "POST",
+          body: new FormData(e.target as HTMLFormElement),
+        });
         if (inputRef.current === null) return;
         inputRef.current.value = "";
         router.refresh();
