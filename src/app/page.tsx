@@ -3,6 +3,7 @@ import { Comments } from "@/features/Comments";
 import { fireStore } from "@/lib/firebase";
 import { addDoc, collection } from "firebase/firestore";
 import { revalidatePath } from "next/cache";
+import { Suspense } from "react";
 
 async function onSendComment(formData: FormData) {
   "use server";
@@ -16,7 +17,9 @@ async function onSendComment(formData: FormData) {
 export default function Home() {
   return (
     <main className="pb-24">
-      <Comments />
+      <Suspense>
+        <Comments />
+      </Suspense>
       <CommentForm action={onSendComment} />
     </main>
   );
