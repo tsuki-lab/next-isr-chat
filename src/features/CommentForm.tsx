@@ -1,10 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { addComment } from "@/actions/addComment";
+// import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 
 export const CommentForm = () => {
-  const router = useRouter();
+  // const router = useRouter();
 
   const [commentValue, setCommentValue] = useState("");
 
@@ -24,13 +25,16 @@ export const CommentForm = () => {
         const formData = new FormData();
         formData.append("comment", commentValue);
 
-        fetch("/api/comments", {
-          method: "POST",
-          body: new FormData(e.target as HTMLFormElement),
-        }).finally(() => {
-          router.refresh();
-          setCommentValue("");
-        });
+        await addComment(formData);
+        setCommentValue("");
+
+        // fetch("/api/comments", {
+        //   method: "POST",
+        //   body: new FormData(e.target as HTMLFormElement),
+        // }).finally(() => {
+        //   router.refresh();
+        //   setCommentValue("");
+        // });
       }}
       className="flex fixed bottom-10 left-0 right-0 p-2 gap-1"
     >
