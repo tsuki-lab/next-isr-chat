@@ -2,7 +2,7 @@ import { fireStore } from "@/lib/firebase";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { cache } from "react";
 
-export const Comments = async () => {
+const getComments = cache(async () => {
   const comments = (
     await getDocs(
       query(collection(fireStore, "comments"), orderBy("createdAt", "desc"))
@@ -15,6 +15,12 @@ export const Comments = async () => {
         id: string;
       })
   );
+
+  return comments;
+});
+
+export const Comments = async () => {
+  const comments = await getComments();
 
   return (
     <div>
