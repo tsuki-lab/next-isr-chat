@@ -1,19 +1,24 @@
 import { fireStore } from "@/lib/firebase";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { cache } from "react";
+
+export const revalidate = 3600;
 
 export const Comments = async () => {
-  const comments = (
-    await getDocs(
-      query(collection(fireStore, "comments"), orderBy("createdAt", "desc"))
+  const comments = await cache(async () =>
+    (
+      await getDocs(
+        query(collection(fireStore, "comments"), orderBy("createdAt", "desc"))
+      )
+    ).docs.map(
+      (doc) =>
+        ({ ...doc.data(), id: doc.id } as {
+          text: string;
+          createdAt: { seconds: number; nanoseconds: number };
+          id: string;
+        })
     )
-  ).docs.map(
-    (doc) =>
-      ({ ...doc.data(), id: doc.id } as {
-        text: string;
-        createdAt: { seconds: number; nanoseconds: number };
-        id: string;
-      })
-  );
+  )();
 
   return (
     <div>
